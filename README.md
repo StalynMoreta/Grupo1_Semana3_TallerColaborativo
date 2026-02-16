@@ -63,6 +63,7 @@ Evidencia:
 ### 5.2 K-Means
 Estimamos el numero de clusters con metodo del codo y metodo de la silueta.
 Luego entrenamos un modelo final de K-Means y analizamos sus grupos.
+Dejamos una justificacion explicita del `k` final en el notebook, equilibrando calidad estadistica e interpretabilidad.
 
 Evidencia:
 - `Results/metodo_codo.png`
@@ -78,6 +79,7 @@ Hacemos busqueda en grilla de `eps` y `min_samples` y evaluamos:
 - silhouette score sin ruido.
 
 Con la mejor configuracion, entrenamos DBSCAN final y documentamos clusters y ruido.
+Tambien dejamos justificacion explicita del par final (`eps`, `min_samples`) usando tradeoff entre silhouette, numero de clusters y ruido.
 
 Evidencia:
 - `Results/dbscan_busqueda_parametros.csv`
@@ -88,6 +90,7 @@ Evidencia:
 
 ### 5.4 Comparacion K-Means vs DBSCAN
 Comparamos ambos metodos en una vista visual unificada para cumplir el criterio comparativo del enunciado.
+Adicionalmente, incluimos analisis critico de fortalezas, limitaciones y escenarios recomendados para cada modelo.
 
 Evidencia:
 - `Results/comparativo_kmeans_dbscan.png`
@@ -117,6 +120,9 @@ Obtenemos estas conclusiones al ejecutar `Notebooks/Grupo1_semana3.ipynb` y revi
 
 5. Validamos visualmente la separacion de perfiles con reduccion de dimensionalidad.
    Evidencia: `Results/pca_kmeans.png`, `Results/tsne_kmeans.png`, `Results/tsne_genero.png`.
+
+6. Construimos perfiles por cluster (K-Means y DBSCAN) con 2-4 lineas por segmento para conectar resultados numericos con decisiones de negocio.
+   Evidencia: seccion de perfiles en `Notebooks/Grupo1_semana3.ipynb`, `Results/resumen_clusters_kmeans.csv`, `Results/resumen_clusters_dbscan.csv`.
 
 ## 7) Limitaciones y mejoras
 - Reconocemos que `ESPECIALIDAD` tiene alta cardinalidad y puede dispersar densidades en DBSCAN.
