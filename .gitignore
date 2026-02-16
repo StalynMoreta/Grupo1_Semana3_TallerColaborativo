@@ -37,3 +37,6 @@ datasets/
 outputs/
 models/
 runs/
+
+# Excel lock files
+~$*.xlsx

@@ -3,6 +3,7 @@ numpy==2.0.2
 pandas==2.2.2
 scipy==1.14.1
 scikit-learn==1.5.1
+openpyxl==3.1.5
 
 # Viz
 matplotlib==3.9.2

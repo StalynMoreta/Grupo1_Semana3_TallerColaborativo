@@ -1,64 +1,134 @@
-Análisis de Segmentación de Usuarios Digitales
+# Analisis de Segmentacion de Usuarios Digitales
 
-1. Preparación del Entorno
-Para el desarrollo de este proyecto se configuró un entorno de análisis de datos en Python, a continuación el detalle técnico:
+## Resumen ejecutivo
+Aplicamos aprendizaje no supervisado para segmentar usuarios de una plataforma digital de salud.
+Implementamos y comparamos K-Means, DBSCAN, PCA y t-SNE sobre el dataset `citaschallenge.xlsx`.
+Con este flujo generamos visualizaciones y tablas que nos permiten describir perfiles, contrastar metodos y proponer acciones.
 
-- Tecnologías y Librerías: Lenguaje: Python 3.x.
-- Manipulación de Datos: pandas, numpy.
-- Modelado No Supervisado: scikit-learn para desarrollar los modelos: KMeans, DBSCAN, PCA, TSNE.
-- Visualización: matplotlib, seaborn.
-- Métricas: silhouette_score.
+## 1) Objetivo y alcance
+El objetivo del proyecto es segmentar perfiles de usuario con tecnicas no supervisadas y comunicar resultados tecnicos de forma clara.
+Cubrimos:
+- Analisis exploratorio del dataset.
+- Limpieza y transformacion de variables.
+- Ajuste de K-Means (elbow + silhouette).
+- Ajuste de DBSCAN (`eps`, `min_samples`) con busqueda en grilla.
+- Visualizacion de resultados y comparacion entre metodos.
+- Reduccion de dimensionalidad con PCA y t-SNE.
 
-2. Selección y Carga del Dataset
-Se utilizó el dataset "citaschallenge", el cual contiene registros de citas médicas de una plataforma digital con las siguientes variables clave:
+## 2) Contexto y dataset
+Trabajamos con el dataset `Dataset/citaschallenge.xlsx`, que ya fue validado y aceptado por el docente para esta actividad.
 
-- Demográficas: GENERO, EDAD.
-- Operativas: ESPECIALIDAD, FECHA_CITA, ESTAFINAL.
-- Negocio: TIPO_AFILIACION (Convenio, Silver, Gold).
+Variables principales que usamos en el modelado:
+- `GENERO`
+- `EDAD`
+- `ESTAFINAL`
+- `TIPO_AFILIACION`
 
-3. Análisis Exploratorio de Datos (EDA) y Preprocesamiento
-El análisis estadístico arrojó la siguiente información:
-- Registros: 67,650 entradas sin valores nulos ni duplicados detectados.
-- Distribución de Edad: El promedio de edad es de 38.7 años, con una desviación estándar de 14.5, con un rango identificado que va de 0 a 96 años.
+## 3) Estructura del repositorio
+Organizamos el repositorio asi:
 
-- Variables Categóricas: Se identificaron tendencias en la afiliación, con más datos en los niveles Silver y Gold.
-- Transformaciones Realizadas
-    - Encoding: Las variables categóricas fueron convertidas a formato numérico para ser procesadas por los algoritmos:
-      GENERO: Femenino (0), Masculino (1).
-      TIPO_AFILIACION: Convenio (1), Silver (2), Gold (3).
-- Normalización: Se aplicó StandardScaler para asegurar que variables con diferentes escalas (como la Edad frente al Género) tengan el mismo peso en el cálculo de distancias.
+```text
+Dataset/
+  citaschallenge.xlsx
+Notebooks/
+  Grupo1_semana3.ipynb
+Results/
+  *.png
+  *.csv
+README.md
+requirements.txt
+```
 
-4. Implementación de Modelos y Justificación Técnica
-K-Means
-- Justificación: Elegido por su eficiencia en datasets grandes para crear grupos basados en centroides.
-- Metodología: Se utilizó el Método del Codo y el Análisis de Silueta para definir el número óptimo de clusters.
-- Hallazgo: Se determinaron clusters bien definidos que separan a los usuarios principalmente por nivel socioeconómico con la variable Afiliación y ciclo de vida con la variable Edad.
+## 4) Reproduccion
+Ejecutamos el proyecto asi:
 
-DBSCAN
-- Justificación: A diferencia de K-means, DBSCAN permite identificar formas de clusters irregulares y detectar outliers (ruido) que no encajan en ningún perfil estándar.
-- Ajuste: Se calibraron los parámetros eps y min_samples para encontrar densidades de comportamiento significativas en el uso de especialidades médicas.
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+jupyter notebook Notebooks/Grupo1_semana3.ipynb
+```
 
-Reducción de Dimensionalidad: PCA vs. t-SNE
-PCA: Utilizado para reducir la complejidad lineal y visualizar la separación global de los clusters en 2D.
-t-SNE: Aplicado para capturar relaciones no lineales. Esta técnica permitió visualizar grupos de usuarios con comportamientos muy específicos que el PCA pasaba por alto.
+Al ejecutar el notebook de inicio a fin, generamos todos los artefactos en `Results/`.
 
-5. Análisis de Resultados y Perfiles Identificados
-Tras agrupar los datos por clúster y analizar sus medias, se identificaron los siguientes perfiles representativos:
+## 5) Metodologia
+### 5.1 EDA y limpieza
+Revisamos estructura, estadisticos descriptivos, nulos y duplicados.
+Transformamos variables categoricas a numericas y estandarizamos el set de entrada para clustering.
 
-- Perfil Ejecutivo (Cluster Gold/Silver - Adulto): Usuarios de 35-50 años con afiliaciones de alto nivel, alta tasa de cumplimiento de citas.
-- Perfil Familiar (Cluster Mixto - Joven/Niños): Segmento de menor edad con afiliaciones tipo convenio con especialidades como pediatría u odontología.
-- Perfil Senior (Cluster Especializado): Usuarios mayores de 60 años concentrados en especialidades específicas como cardiología o medicina interna.
+Evidencia:
+- `Results/visualizacion_distribuciones.png`
+- `Results/matriz_correlacion.png`
 
-6. Reflexiones y Conclusiones
-Diferencias Clave
-- K-means proporcionó una segmentación visualmente más sencilla y fácil de interpretar para identificar los objetivos de mercado.
-- DBSCAN reveló que hay un grupo de usuarios con comportamientos erráticos que podrían representar ruido o errores de sistema.
+### 5.2 K-Means
+Estimamos el numero de clusters con metodo del codo y metodo de la silueta.
+Luego entrenamos un modelo final de K-Means y analizamos sus grupos.
 
-Limitaciones y soluciones propuestas
-- Limitación: La variable ESPECIALIDAD tiene demasiadas categorías únicas, lo que dispersa la densidad en DBSCAN.
-- Solución propuesta: Realizar una agrupación de especialidades en categorías generales (Ej: Quirúrgicas, Diagnósticas, Consultas Generales) para mejorar el rendimiento del modelo.
+Evidencia:
+- `Results/metodo_codo.png`
+- `Results/metodo_silueta.png`
+- `Results/segmentacion_kmeans_edad.png`
+- `Results/segmentacion_kmeans_afiliacion.png`
+- `Results/resumen_clusters_kmeans.csv`
 
-Recomendación de Negocio
-Se recomienda adaptar la comunicación de la plataforma:
-- Notifications personalizadas para el "Perfil Senior" sobre chequeos preventivos.
-- Campañas de upgrade de afiliación para el "Perfil Ejecutivo" basadas en su alta frecuencia de uso.
+### 5.3 DBSCAN
+Hacemos busqueda en grilla de `eps` y `min_samples` y evaluamos:
+- cantidad de clusters,
+- porcentaje de ruido,
+- silhouette score sin ruido.
+
+Con la mejor configuracion, entrenamos DBSCAN final y documentamos clusters y ruido.
+
+Evidencia:
+- `Results/dbscan_busqueda_parametros.csv`
+- `Results/segmentacion_dbscan_edad.png`
+- `Results/segmentacion_dbscan_afiliacion.png`
+- `Results/resumen_clusters_dbscan.csv`
+- `Results/resumen_clusters_dbscan_sin_ruido.csv`
+
+### 5.4 Comparacion K-Means vs DBSCAN
+Comparamos ambos metodos en una vista visual unificada para cumplir el criterio comparativo del enunciado.
+
+Evidencia:
+- `Results/comparativo_kmeans_dbscan.png`
+
+### 5.5 PCA y t-SNE
+Usamos PCA para una proyeccion lineal 2D y t-SNE para estructura no lineal.
+
+Evidencia:
+- `Results/pca_kmeans.png`
+- `Results/tsne_kmeans.png`
+- `Results/tsne_genero.png`
+
+## 6) Resultados y conclusiones (ancladas al notebook)
+Obtenemos estas conclusiones al ejecutar `Notebooks/Grupo1_semana3.ipynb` y revisar los artefactos que exportamos en `Results/`.
+
+1. Confirmamos que los datos son aptos para clustering despues de limpieza y transformacion.
+   Evidencia: `Results/visualizacion_distribuciones.png`, `Results/matriz_correlacion.png`.
+
+2. Identificamos una segmentacion estable con K-Means usando el criterio de codo y silueta.
+   Evidencia: `Results/metodo_codo.png`, `Results/metodo_silueta.png`, `Results/resumen_clusters_kmeans.csv`.
+
+3. Observamos que DBSCAN aporta una lectura complementaria al detectar ruido y microgrupos.
+   Evidencia: `Results/dbscan_busqueda_parametros.csv`, `Results/resumen_clusters_dbscan.csv`.
+
+4. Comparamos directamente ambos enfoques para interpretar diferencias de estructura y densidad.
+   Evidencia: `Results/comparativo_kmeans_dbscan.png`.
+
+5. Validamos visualmente la separacion de perfiles con reduccion de dimensionalidad.
+   Evidencia: `Results/pca_kmeans.png`, `Results/tsne_kmeans.png`, `Results/tsne_genero.png`.
+
+## 7) Limitaciones y mejoras
+- Reconocemos que `ESPECIALIDAD` tiene alta cardinalidad y puede dispersar densidades en DBSCAN.
+- Proponemos agrupar especialidades en macro-categorias para una interpretacion mas robusta.
+- Proponemos probar escaladores alternativos y evaluar estabilidad de clusters por remuestreo.
+
+## 8) Checklist de entregables
+Incluimos en este repositorio:
+- Codigo fuente: `Notebooks/Grupo1_semana3.ipynb`.
+- Dataset: `Dataset/citaschallenge.xlsx`.
+- Documentacion tecnica: `README.md`.
+- Visualizaciones y tablas exportadas: `Results/`.
+
+## 9) Dependencias
+Fijamos las dependencias en `requirements.txt`, incluyendo `openpyxl` para lectura de Excel con pandas.
