@@ -1,0 +1,39 @@
+# Python virtual env
+.venv/
+venv/
+ENV/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VSCode
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs / temp
+*.log
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+
+# Data / outputs (ajusta según el repo)
+data/
+datasets/
+outputs/
+models/
+runs/
