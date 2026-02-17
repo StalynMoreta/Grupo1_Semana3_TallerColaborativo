@@ -136,5 +136,7 @@ Incluimos en este repositorio:
 - Documentacion tecnica: `README.md`.
 - Visualizaciones y tablas exportadas: `Results/`.
 
-## 9) Dependencias
-Fijamos las dependencias en `requirements.txt`, incluyendo `openpyxl` para lectura de Excel con pandas.
+## 9) Configuración y ejecución
+
+Para instrucciones detalladas sobre cómo instalar las dependencias y ejecutar el notebook, consulta el archivo [setup.md](setup.md).
+
