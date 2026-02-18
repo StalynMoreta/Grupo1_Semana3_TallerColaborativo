@@ -140,3 +140,8 @@ Incluimos en este repositorio:
 
 Para instrucciones detalladas sobre cómo instalar las dependencias y ejecutar el notebook, consulta el archivo [setup.md](setup.md).
 
+## 9) Video con Presentación de hallazgos
+
+https://drive.google.com/file/d/1cb9qAs7_FVX-r4f2dPLBc1RzG9y_DTwk/view?usp=sharing
+
+
